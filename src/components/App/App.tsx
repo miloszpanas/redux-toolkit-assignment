@@ -1,18 +1,14 @@
+import "antd/dist/antd.css";
 import "./App.css";
 import { RenderRoutes } from "../../routing";
+import { Header } from "../../common";
 
 function App() {
   return (
-    <div className="App">
-      <div>
-        <div>
-          HEADER
-        </div>
-        <RenderRoutes />
-      </div>
-      asdasdasdasd
-      asdasdda
-    </div>
+    <>
+      <Header />
+      <RenderRoutes />
+    </>
   );
 }
 

@@ -1,0 +1,12 @@
+.post-container {
+  margin-bottom: 2rem;
+  padding-top: 5rem;
+}
+
+.details-container {
+  margin-top: 1rem;
+}
+
+.ant-card-actions {
+  align-items: center;
+}

@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AddPost, EditPost, PostList, SinglePost } from "../components/Posts";
+import { AddPost, EditPost, PostList, ViewedPost } from "../components/Posts";
 
 const ROUTES = [
   {
@@ -15,7 +15,7 @@ const ROUTES = [
   {
     path: "/post/:id",
     key: "singlePost",
-    component: <SinglePost />,
+    component: <ViewedPost />,
   },
   {
     path: "/post/:id/edit",
@@ -26,12 +26,12 @@ const ROUTES = [
 
 export const RenderRoutes = () => {
   return (
-    <Router>
+    <div className="app-container">
       <Routes>
         {ROUTES.map(({ key, path, component }) => (
           <Route key={key} path={path} element={component} />
         ))}
       </Routes>
-    </Router>
+    </div>
   );
 };
