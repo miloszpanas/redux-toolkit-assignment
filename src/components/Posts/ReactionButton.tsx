@@ -14,9 +14,9 @@ const ReactionButtons = ({ post }: any) => {
       shape="round"
       size="large"
       onClick={onLike}
-      icon={<LikeFilled style={{ fontSize: "2rem", color: "gold" }} />}
+      icon={<LikeFilled style={{ fontSize: "1.1rem", color: "gold" }} />}
     >
-      <span style={{ fontSize: "1.4rem" }}>{post.thumbsUp}</span>
+      <span style={{ fontSize: "1.1rem" }}>{post.thumbsUp}</span>
     </Button>
   );
 };

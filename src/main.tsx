@@ -1,4 +1,5 @@
 import React from "react";
+import { ChakraProvider } from "@chakra-ui/react";
 import ReactDOM from "react-dom/client";
 import App from "./components/App/App";
 import "./index.css";
@@ -12,9 +13,11 @@ store.dispatch(fetchPosts());
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ChakraProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ChakraProvider>
     </Provider>
   </React.StrictMode>
 );

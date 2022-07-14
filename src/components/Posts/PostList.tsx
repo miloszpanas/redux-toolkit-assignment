@@ -1,4 +1,5 @@
 import { useAppSelector } from "../../hooks/reduxHooks";
+
 import {
   selectAllPostsSelector,
   getPostsStatusSelector,
@@ -12,8 +13,6 @@ const PostsList = () => {
   const postStatus = useAppSelector(getPostsStatusSelector);
   const error = useAppSelector(getPostsErrorSelector);
 
-  console.log("posts", posts);
-
   let content;
   if (postStatus === "loading") {
     content = <p>"Loading..."</p>;
@@ -21,13 +20,13 @@ const PostsList = () => {
     const orderedPosts = posts
       .slice()
       .sort((a, b) => b.date.localeCompare(a.date));
-    content = orderedPosts.map((post) => (
+    content = orderedPosts.map((post: any) => (
       <Post key={post.id} post={post} />
     ));
   } else if (postStatus === "failed") {
     content = <p>{error}</p>;
   }
 
-  return <section style={{ maxWidth: "45vw" }}>{content}</section>;
+  return <section>{content}</section>;
 };
 export default PostsList;

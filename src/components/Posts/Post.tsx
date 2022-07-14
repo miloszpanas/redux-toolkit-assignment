@@ -5,35 +5,33 @@ import { TimePassed } from "../../common";
 import ReactionButton from "./ReactionButton";
 import { Link } from "react-router-dom";
 import { Post as PostTypes } from "../../reducers/Posts/postSlice";
-import "./styles/Post.css";
+import { CardContainer, DetailsContainer } from "./styles/PostStyled";
 
-interface SinglePost {
-  post: PostTypes;
-}
-
-const Post = ({ post }: SinglePost) => {
+const Post: React.FC<{ post: PostTypes }> = ({ post }) => {
   const { body, id, title, date } = post;
 
   const { Meta } = Card;
 
   return (
-    <article className="post-container">
+    <CardContainer>
       <Card
         hoverable
         actions={[
           <ReactionButton post={post} />,
           <Link to={`post/${id}`}>
-            <Button type="primary" ghost>Edit Post</Button>
+            <Button type="primary" ghost>
+              Show Post
+            </Button>
           </Link>,
         ]}
       >
-        <Meta title={title} description={body.substring(0, 75)} />
-        <div className="details-container">
+        <Meta title={title} description={body.substring(0, 100)} />
+        <DetailsContainer>
           <PostAuthor post={post} />
           <TimePassed timestamp={date} />
-        </div>
+        </DetailsContainer>
       </Card>
-    </article>
+    </CardContainer>
   );
 };
 
