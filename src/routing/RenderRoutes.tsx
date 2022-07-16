@@ -24,7 +24,7 @@ const ROUTES = [
     component: <MutatePost />,
   },
   {
-    path: "*",
+    path: "/*",
     key: "notFound",
     component: (
       <Result
