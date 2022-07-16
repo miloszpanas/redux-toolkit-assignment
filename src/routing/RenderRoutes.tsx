@@ -24,7 +24,7 @@ const ROUTES = [
     component: <MutatePost />,
   },
   {
-    path: "/*",
+    path: "*",
     key: "notFound",
     component: (
       <Result
@@ -41,7 +41,7 @@ export const RenderRoutes = () => {
     <div className="app-container">
       <Routes>
         {ROUTES.map(({ key, path, component }) => (
-          <Route key={key} path={path} element={component} />
+          <Route key={key} path={path} element={component}/>
         ))}
       </Routes>
     </div>

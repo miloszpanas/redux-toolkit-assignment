@@ -1,1 +1,0 @@
-# open at: https://miloszpanas.github.io/redux-toolkit-assignment/
