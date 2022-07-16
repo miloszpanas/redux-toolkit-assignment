@@ -1,7 +1,6 @@
-import AddPost from "./AddPost";
-import EditPost from "./EditPost";
+import MutatePost from "./MutatePost";
 import PostList from "./PostList";
 import Post from "./Post";
 import ViewedPost from "./ViewedPost";
 
-export { AddPost, EditPost, PostList, Post, ViewedPost };
+export { MutatePost, PostList, Post, ViewedPost };

@@ -4,7 +4,6 @@ import { Post } from "./postSlice";
 
 export const selectAllPosts = (state: RootState) => state.posts.posts;
 export const getPostsStatus = (state: RootState) => state.posts.status;
-export const getPostsError = (state: RootState) => state.posts.error;
 
 export const selectAllPostsSelector = createSelector(
   [selectAllPosts],
@@ -14,11 +13,6 @@ export const selectAllPostsSelector = createSelector(
 export const getPostsStatusSelector = createSelector(
   [getPostsStatus],
   (status: string) => status
-);
-
-export const getPostsErrorSelector = createSelector(
-  [getPostsError],
-  (error: any) => error
 );
 
 export const selectPostsByIdSelector = createSelector(

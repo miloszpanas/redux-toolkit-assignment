@@ -20,7 +20,7 @@ export interface PostState {
 
 const initialState: PostState = {
   posts: [],
-  status: "idle", //'idle' | 'loading' | 'succeeded' | 'failed'
+  status: "idle",
   error: "",
 };
 
@@ -30,9 +30,9 @@ const postsSlice = createSlice({
   reducers: {
     reactToPost(state: PostState, action: PayloadAction<number>) {
       const postId = action.payload;
-      const existingPost = state.posts.find((post) => post.id === postId);
-      if (existingPost) {
-        existingPost.thumbsUp++;
+      const postToReact = state.posts.find((post) => post.id === postId);
+      if (postToReact) {
+        postToReact.thumbsUp++;
       }
     },
   },
@@ -45,36 +45,28 @@ const postsSlice = createSlice({
         fetchPosts.fulfilled,
         (state: PostState, action: PayloadAction<Post[]>) => {
           state.status = "succeeded";
-          // Adding date and reactions
           let min = 1;
-          const loadedPosts = action.payload.map((post: any) => {
+          const loadedPosts = action.payload.map((post) => {
             post.date = sub(new Date(), { minutes: min++ }).toISOString();
             post.thumbsUp = 0;
             post.author = "Unknown Author";
             return post;
           });
-
-          // Add any fetched posts to the array
-          state.posts = state.posts.concat(loadedPosts);
+          state.posts = loadedPosts;
         }
       )
-      .addCase(fetchPosts.rejected, (state: PostState, action: any) => {
+      .addCase(fetchPosts.rejected, (state: PostState) => {
         state.status = "failed";
-        state.error = action.error.message;
       })
       .addCase(
         addNewPost.fulfilled,
-        (
-          state: PostState,
-          action: PayloadAction<Post>
-        ) => {
-          console.log("action.payload", action.payload);
+        (state: PostState, action: PayloadAction<Post>) => {
           const extendedPost = {
             ...action.payload,
             id: state.posts[state.posts.length - 1].id + 111,
             date: new Date().toISOString(),
             thumbsUp: 0,
-          }
+          };
           state.posts.push(extendedPost);
         }
       )
@@ -82,14 +74,15 @@ const postsSlice = createSlice({
         updatePost.fulfilled,
         (state: PostState, action: PayloadAction<Post>) => {
           if (!action.payload?.id) {
-            console.log("Update could not complete");
-            console.log(action.payload);
-            return;
+            state.status = "failed";
           }
+
           const { id } = action.payload;
           action.payload.date = new Date().toISOString();
-          const posts = state.posts.filter((post) => post.id !== id);
-          state.posts = [...posts, action.payload];
+          const posts = state.posts.map((post) =>
+            post.id === id ? action.payload : post
+          );
+          state.posts = posts;
         }
       )
       .addCase(
@@ -97,10 +90,9 @@ const postsSlice = createSlice({
         (state: PostState, action: PayloadAction<{ id: number }>) => {
           const { id } = action.payload;
           if (!id) {
-            console.log("Delete could not complete");
-            console.log(action.payload);
-            return;
+            state.status = "failed";
           }
+
           const posts = state.posts.filter((post) => post.id !== id);
           state.posts = posts;
         }

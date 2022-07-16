@@ -1,32 +1,44 @@
 import { useAppSelector } from "../../hooks/reduxHooks";
-
+import { StatusContainer } from "./styles/PostStyled"
+import { Spin, Result } from "antd";
 import {
   selectAllPostsSelector,
   getPostsStatusSelector,
-  getPostsErrorSelector,
 } from "../../reducers/Posts/selectors";
 import Post from "./Post";
 
-const PostsList = () => {
-  console.log("am i here");
+const PostsList: React.FC = (): JSX.Element => {
+
   const posts = useAppSelector(selectAllPostsSelector);
   const postStatus = useAppSelector(getPostsStatusSelector);
-  const error = useAppSelector(getPostsErrorSelector);
 
-  let content;
-  if (postStatus === "loading") {
-    content = <p>"Loading..."</p>;
-  } else if (postStatus === "succeeded") {
-    const orderedPosts = posts
-      .slice()
-      .sort((a, b) => b.date.localeCompare(a.date));
-    content = orderedPosts.map((post: any) => (
-      <Post key={post.id} post={post} />
-    ));
-  } else if (postStatus === "failed") {
-    content = <p>{error}</p>;
-  }
+  const renderContent = (status: string) => {
+    switch (status) {
+      case "loading":
+        return (
+          <StatusContainer>
+            <Spin size="large" />
+          </StatusContainer>
+        );
+      case "failed":
+        return (
+          <Result
+            status="500"
+            title="Error"
+            subTitle="Sorry, posts could not be fetched."
+          />
+        );
+      case "succeeded":
+        const postsOrdered = posts
+          .slice()
+          .sort((a, b) => b.date.localeCompare(a.date));
+        return postsOrdered.map((post) => <Post key={post.id} post={post} />);
+    }
+  };
 
-  return <section>{content}</section>;
+  return <section>{renderContent(postStatus)}</section>;
 };
 export default PostsList;
+
+
+

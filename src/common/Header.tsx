@@ -2,7 +2,7 @@ import { Menu } from "antd";
 import { HomeOutlined, FileAddOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
-const Header = () => {
+const Header: React.FC = () => {
   const navigate = useNavigate()
 
   const items = [

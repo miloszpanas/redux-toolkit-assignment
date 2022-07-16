@@ -10,13 +10,13 @@ import {
   FormHelperText,
 } from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks";
-import { formDataReducer } from "./AddPostReducer";
+import { formDataReducer, initialFormState } from "./AddPostReducer";
 import { EmptyContainer } from "./styles/PostStyled";
-import { updatePost } from "../../reducers/Posts/postServices";
+import { updatePost, addNewPost } from "../../reducers/Posts/postServices";
 import { selectPostsByIdSelector } from "../../reducers/Posts/selectors";
 import { useParams, useNavigate } from "react-router-dom";
 
-const EditPost = () => {
+const MutatePost: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -25,12 +25,15 @@ const EditPost = () => {
     selectPostsByIdSelector(state, Number(id))
   );
 
+  const isForEdit = id !== undefined;
+  const reducerInitialContent = isForEdit ? postToEdit! : initialFormState;
+
   const [{ title, body, author }, dispatchFormAction] = useReducer(
     formDataReducer,
-    postToEdit!
+    reducerInitialContent
   );
 
-  if (!postToEdit) {
+  if (isForEdit && !postToEdit) {
     return (
       <EmptyContainer>
         <Empty />
@@ -45,25 +48,37 @@ const EditPost = () => {
   const changeAuthorHandler = (e: React.ChangeEvent<HTMLInputElement>) =>
     dispatchFormAction({ type: "author", payload: e.target.value });
 
-  const savePost = () => {
+  const editPost = (): void => {
     try {
       dispatch(
         updatePost({
-          id: postToEdit.id,
+          id: postToEdit!.id,
           title,
           body,
-          userId: postToEdit.userId,
+          userId: postToEdit!.userId,
           author,
-          thumbsUp: postToEdit.thumbsUp,
+          thumbsUp: postToEdit!.thumbsUp,
         })
       );
 
       dispatchFormAction({ type: "clear" });
       navigate(`/post/${id}`);
     } catch (err) {
-      console.error("post update error", err);
+      console.error("post could not be updated, check error message", err);
     }
   };
+
+  const savePost = (): void => {
+    try {
+      dispatch(addNewPost({ title, body, userId: "1", author }));
+      dispatchFormAction({ type: "clear" });
+      navigate("/");
+    } catch (err) {
+      console.error("Post could not be saved, check error message", err);
+    }
+  };
+
+  const formAction = isForEdit ? editPost : savePost;
 
   return (
     <form action="submit">
@@ -107,9 +122,9 @@ const EditPost = () => {
             type="submit"
             colorScheme="blue"
             isDisabled={[title, body, author].some((el) => !el)}
-            onClick={savePost}
+            onClick={formAction}
           >
-            Update Post
+            {isForEdit ? "Update Post" : "Add Post"}
           </Button>
         </FormControl>
       </Stack>
@@ -117,4 +132,4 @@ const EditPost = () => {
   );
 };
 
-export default EditPost;
+export default MutatePost;

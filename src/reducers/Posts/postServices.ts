@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { Post } from "./postSlice"
+import { Post } from "./postSlice";
 import axios from "axios";
 
 const POSTS_URL = "https://jsonplaceholder.typicode.com/posts";
@@ -9,7 +9,6 @@ interface SavedPost {
   body: string;
   userId: number | string;
   title: string;
-
 }
 
 export const fetchPosts = createAsyncThunk("fetchPosts", async () => {
@@ -17,13 +16,16 @@ export const fetchPosts = createAsyncThunk("fetchPosts", async () => {
   return response.data;
 });
 
-export const addNewPost = createAsyncThunk("addNewPost", async (post: SavedPost) => {
-  const response = await axios.post(POSTS_URL, post);
-  return response.data;
-});
+export const addNewPost = createAsyncThunk(
+  "addPost",
+  async (post: SavedPost) => {
+    const response = await axios.post(POSTS_URL, post);
+    return response.data;
+  }
+);
 
 export const updatePost = createAsyncThunk(
-  "posts/updatePost",
+  "updatePost",
   async (post: Omit<Post, "date">) => {
     const { id } = post;
     try {

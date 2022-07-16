@@ -3,10 +3,13 @@ import { Button } from "antd";
 import { useAppDispatch } from "../../hooks/reduxHooks";
 import { reactToPost } from "../../reducers/Posts/postSlice";
 
-const ReactionButtons = ({ post }: any) => {
+const ReactionButtons: React.FC<{ thumbsUp: number; id: number }> = ({
+  thumbsUp,
+  id,
+}) => {
   const dispatch = useAppDispatch();
 
-  const onLike = () => dispatch(reactToPost(post.id));
+  const onLike = () => dispatch(reactToPost(id));
 
   return (
     <Button
@@ -16,7 +19,7 @@ const ReactionButtons = ({ post }: any) => {
       onClick={onLike}
       icon={<LikeFilled style={{ fontSize: "1.1rem", color: "gold" }} />}
     >
-      <span style={{ fontSize: "1.1rem" }}>{post.thumbsUp}</span>
+      <span style={{ fontSize: "1.1rem" }}>{thumbsUp}</span>
     </Button>
   );
 };

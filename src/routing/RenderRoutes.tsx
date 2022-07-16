@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AddPost, EditPost, PostList, ViewedPost } from "../components/Posts";
+import { MutatePost, PostList, ViewedPost } from "../components/Posts";
+import { Result } from "antd";
 
 const ROUTES = [
   {
@@ -10,7 +11,7 @@ const ROUTES = [
   {
     path: "/post",
     key: "addPost",
-    component: <AddPost />,
+    component: <MutatePost />,
   },
   {
     path: "/post/:id",
@@ -20,7 +21,18 @@ const ROUTES = [
   {
     path: "/post/:id/edit",
     key: "editPost",
-    component: <EditPost />,
+    component: <MutatePost />,
+  },
+  {
+    path: "*",
+    key: "notFound",
+    component: (
+      <Result
+        status="404"
+        title="404"
+        subTitle="Sorry, the page you visited does not exist."
+      />
+    ),
   },
 ];
 

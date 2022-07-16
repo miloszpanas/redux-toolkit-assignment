@@ -48,7 +48,10 @@ const ViewedPost: React.FC<{}> = () => {
       <Card
         hoverable
         actions={[
-          <ReactionButton post={selectedPost} />,
+          <ReactionButton
+            id={selectedPost.id}
+            thumbsUp={selectedPost.thumbsUp}
+          />,
           <Link to={`/post/${selectedPost.id}/edit/`}>
             <Button type="primary" ghost>
               Edit Post
@@ -64,7 +67,7 @@ const ViewedPost: React.FC<{}> = () => {
           description={selectedPost.body.substring(0, 100)}
         />
         <DetailsContainer>
-          <PostAuthor post={selectedPost} />
+          <PostAuthor author={selectedPost.author} />
           <TimePassed timestamp={selectedPost.date} />
         </DetailsContainer>
       </Card>

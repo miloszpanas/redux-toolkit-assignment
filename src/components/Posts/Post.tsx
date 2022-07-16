@@ -8,7 +8,7 @@ import { Post as PostTypes } from "../../reducers/Posts/postSlice";
 import { CardContainer, DetailsContainer } from "./styles/PostStyled";
 
 const Post: React.FC<{ post: PostTypes }> = ({ post }) => {
-  const { body, id, title, date } = post;
+  const { body, id, title, date, author, thumbsUp } = post;
 
   const { Meta } = Card;
 
@@ -17,7 +17,7 @@ const Post: React.FC<{ post: PostTypes }> = ({ post }) => {
       <Card
         hoverable
         actions={[
-          <ReactionButton post={post} />,
+          <ReactionButton thumbsUp={thumbsUp} id={id} />,
           <Link to={`post/${id}`}>
             <Button type="primary" ghost>
               Show Post
@@ -27,7 +27,7 @@ const Post: React.FC<{ post: PostTypes }> = ({ post }) => {
       >
         <Meta title={title} description={body.substring(0, 100)} />
         <DetailsContainer>
-          <PostAuthor post={post} />
+          <PostAuthor author={author} />
           <TimePassed timestamp={date} />
         </DetailsContainer>
       </Card>

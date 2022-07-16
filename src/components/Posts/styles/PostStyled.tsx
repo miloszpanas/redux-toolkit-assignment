@@ -15,3 +15,13 @@ export const EmptyContainer = styled.div`
   align-items: center;
   height: 50vh;
 `;
+
+export const BadgeStyled = styled.div`
+  margin-top: 10px;
+`;
+
+export const StatusContainer = styled.div`
+  display: flex;
+  align-items: center;
+  height: calc(100vh - 61px);
+`;
